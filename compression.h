@@ -4,7 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <stddef.h> 
+#include <stddef.h>
+
+/* Déclaration incomplète pour lsc afin d'éviter une inclusion circulaire */
+typedef struct lsc lsc;
 
 // -----------------------------------------------------------------------------
 // Structures
@@ -46,5 +49,11 @@ void order_frequency(PFreqObject freq);
 */
 void print_frequency(PFreqObject freq); 
 
+/* frequency_to_lsc
+- Input : PFreqObject freq 
+- Output : lsc* 
+- Role :  Convertie un tableau de frequence en lsc 
+*/
+lsc* frequency_to_lsc(PFreqObject freq); 
 
 #endif

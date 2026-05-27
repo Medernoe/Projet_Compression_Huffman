@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <stddef.h> 
 #include "compression.h"
+#include "arbrebinaire.h"
+#include "lsc.h"
 
 
 int main() {
@@ -18,7 +20,15 @@ int main() {
     
     print_frequency(&freq);
 
+    lsc* leaf_order = frequency_to_lsc(&freq); 
+
+    printf("\nlsc version : \n"); 
+
+    lsc_print(leaf_order);
+
     free(freq.array);
-    
-    return 0;
+
+    lsc_dispose(&leaf_order);
+
+    return 1;
 }

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "compression.h"
+#include "lsc.h"
 
 
 // Fonctiond de comptage des occurences 
@@ -56,7 +57,8 @@ FreqObject count_frequency(const char* word) {
 
 /* order_frequency
 - Input : FreqObject* freq 
-- Role : Trie le tableau (trie bulle) dans l'ordre croissant des occurrences
+- Role : Trie le tableau (trie bulle) dans l'ordre decroissant des occurrences, 
+necessaire pour creer une lsc de feuille directement dans l'ordre croissant 
 */
 void order_frequency(PFreqObject freq) {
     // Vérifie si le pointeur est NULL, ou le tableau vide / à 1 élément, rien à trier
@@ -71,7 +73,7 @@ void order_frequency(PFreqObject freq) {
         for (size_t j = 0; j < len - i - 1; j++) {
             
             // Accès au tableau interne de l'objet : freq->array[j]
-            if (freq->array[j].count > freq->array[j + 1].count) {
+            if (freq->array[j].count < freq->array[j + 1].count) {
                 
                 // Échange des structures FreqElement
                 FreqElement temp = freq->array[j];
@@ -100,3 +102,20 @@ void print_frequency(PFreqObject freq) {
     }
     printf("=====================\n");
 }
+
+
+// Creer une lsc pour les feuilles dans l'ordre croissant  
+lsc* frequency_to_lsc(PFreqObject freq){
+    lsc* leaf_order = lsc_vide();
+
+    // Vérifie si le pointeur est NULL, ou le tableau vide 
+    if (freq == NULL || freq->array == NULL) {
+        printf("Frequencies are empty.\n");
+        return leaf_order;
+    }
+
+    for (size_t i = 0; i < freq->length; i++) {
+        lsc_insert_head(leaf_order, freq->array[i]);
+    }
+    return leaf_order;
+} 
