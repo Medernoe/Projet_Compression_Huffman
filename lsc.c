@@ -71,3 +71,9 @@ void lsc_dispose(lsc **pp){
     free(*pp);
     *pp=NULL;
 }
+
+FreqElement lsc_head_value(lsc* p){
+    if (lsc_est_vide(p)) return {NULL, 0};
+    lsc_cell* pointeur = p->head;
+    return pointeur->array;
+}

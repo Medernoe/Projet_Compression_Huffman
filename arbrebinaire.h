@@ -3,9 +3,19 @@
 
 #include <stdbool.h>
 
-typedef int element; //on considerera ici des entiers
 
-typedef struct noeud *PArbre; //pointeur sur un arbre 
+//défini un noeud d'un arbre binaire de recherhe
+typedef 
+struct noeud {
+    int value; //valeur 
+    struct noeud *g; //gauche
+    struct noeud *d; //droite
+}noeud;
+
+//comprendre pourquoi ca 
+typedef struct FreqElement FreqElement; 
+
+typedef struct noeud* PArbre; //pointeur sur un arbre 
 
 // =============================================================================
 // fonctions de base
@@ -17,7 +27,7 @@ PArbre ArbreVide();
 bool EstArbreVide(PArbre); 
 
 //renvoie la valeur de la racine de l'arbre
-element Racine(PArbre);    
+FreqElement Racine(PArbre);    
 
 //renvoie le sous arbre gauche de l'arbre
 PArbre Gauche(PArbre);      
@@ -25,8 +35,8 @@ PArbre Gauche(PArbre);
 //renvoie le sous arbre droit de l'arbre
 PArbre Droit(PArbre);       
 
-// renvoie un arbre construit avec l'element e comme racine, g son sous arbre gauche et d son sous arbre droit
-PArbre Construire(element e, PArbre g, PArbre d); 
+// renvoie un arbre construit avec l'FreqElement e comme racine, g son sous arbre gauche et d son sous arbre droit
+PArbre Construire(FreqElement e, PArbre g, PArbre d); 
 
 
 // =============================================================================
@@ -45,10 +55,10 @@ void ParcoursSuff(PArbre);
 //fonctions pour les arbres binaires de recherche (abr)
 
 //insère l'élément dans l'abr et renvoie l'abr obtenu
-PArbre Insertion(element, PArbre);
+PArbre Insertion(FreqElement, PArbre);
 
 //renvoie vrai si l'élément est présent dans l'abr, faux sinon
-bool Recherche(element, PArbre );
+bool Recherche(FreqElement, PArbre );
 
 
 // =============================================================================
@@ -57,16 +67,16 @@ bool Recherche(element, PArbre );
 // Pour les fonctions suivantes on suppose que l'abr pris en entrée est
 // non vide.
 
-//retourne l'element max de l'abr 
-element Max(PArbre); 
+//retourne l'FreqElement max de l'abr 
+FreqElement Max(PArbre); 
 
-// retourne l'element max de l'abr
+// retourne l'FreqElement max de l'abr
 PArbre SuppressionMax(PArbre);
  
 //supprime la racine de l'abr et renvoie l'abr obtenu
 PArbre SuppressionRacine(PArbre);
 
 //supprime l'élément dans l'abr et renvoie l'abr obtenu
-PArbre Suppression(element, PArbre);
+PArbre Suppression(FreqElement, PArbre);
 
 #endif

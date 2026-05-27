@@ -8,17 +8,17 @@
 
 
 int main() {
-    FreqObject freq = count_frequency("abbraccaddabrra");
+    FreqObject freq = frequency_count("abbraccaddabrra");
 
     printf("\n Classic Version : \n");
 
-    print_frequency(&freq);
+    frequency_print(&freq);
 
-    order_frequency(&freq); 
+    frequency_order(&freq); 
     
     printf("\n Order Version : \n");
     
-    print_frequency(&freq);
+    frequency_print(&freq);
 
     lsc* leaf_order = frequency_to_lsc(&freq); 
 

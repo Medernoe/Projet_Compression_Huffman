@@ -30,24 +30,24 @@ typedef FreqObject* PFreqObject;
 // -----------------------------------------------------------------------------
 // Fonctions
 
-/* count_frequency
+/* frequency_count
 - Input : char* word 
 - Output : FreqObject
 - Role : Parcourt un mot d'alphabet inconnu et construit un tableau d'occurrences des lettres 
 */
-FreqObject count_frequency(const char* word); 
+FreqObject frequency_count(const char* word); 
 
-/* order_frequency
+/* frequency_order
 - Input : PFreqObject freq 
 - Role : Trie le tableau dans l'ordre croissant des occurrences
 */
-void order_frequency(PFreqObject freq);
+void frequency_order(PFreqObject freq);
 
-/* print_frequency
+/* frequency_print
 - Input : PFreqObject freq 
 - Role : Ecrit le tableau des occurences
 */
-void print_frequency(PFreqObject freq); 
+void frequency_print(PFreqObject freq); 
 
 /* frequency_to_lsc
 - Input : PFreqObject freq 

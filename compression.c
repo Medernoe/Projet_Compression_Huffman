@@ -3,10 +3,11 @@
 #include <stdlib.h>
 #include "compression.h"
 #include "lsc.h"
+#include "arbrebinaire.h"
 
 
 // Fonctiond de comptage des occurences 
-FreqObject count_frequency(const char* word) {
+FreqObject frequency_count(const char* word) {
     // En cas d'erreur, on prépare une structure vide à renvoyer
     FreqObject empty_array = {NULL, 0};
 
@@ -60,7 +61,7 @@ FreqObject count_frequency(const char* word) {
 - Role : Trie le tableau (trie bulle) dans l'ordre decroissant des occurrences, 
 necessaire pour creer une lsc de feuille directement dans l'ordre croissant 
 */
-void order_frequency(PFreqObject freq) {
+void frequency_order(PFreqObject freq) {
     // Vérifie si le pointeur est NULL, ou le tableau vide / à 1 élément, rien à trier
     if (freq == NULL || freq->array == NULL || freq->length <= 1) {
         return;
@@ -86,7 +87,7 @@ void order_frequency(PFreqObject freq) {
 
 
 // Ecrit un tableau de frequence 
-void print_frequency(PFreqObject freq) {
+void frequency_print(PFreqObject freq) {
     // Vérifie si le pointeur est NULL, ou le tableau vide 
     if (freq == NULL || freq->array == NULL) {
         printf("Frequencies are empty.\n");
@@ -113,9 +114,41 @@ lsc* frequency_to_lsc(PFreqObject freq){
         printf("Frequencies are empty.\n");
         return leaf_order;
     }
-
+    
     for (size_t i = 0; i < freq->length; i++) {
         lsc_insert_head(leaf_order, freq->array[i]);
     }
     return leaf_order;
 } 
+
+
+PArbre Huffman_creation(char* word){
+    PFreqObject freq = frequency_count(word);
+    freq = frequency_order(&freq); 
+
+    lsc* leaf_order = frequency_to_lsc(&freq); 
+    lsc* node_order = lsc_vide; 
+
+
+    PArbre first_letter = Construire(lsc_head_value(leaf_order), 
+                                                    NULL,
+                                                    NULL); 
+
+    lsc_del_head(leaf_order); 
+    PArbre second_letter = Construire(lsc_head_value(leaf_order), 
+                                                    NULL, 
+                                                    NULL); 
+    
+    lsc_insert_head(node_order, Racine(first_letter)->value + Racine(second_letter)->value)  
+    PArbre first_node = Construire({Racine(first_letter)->value + Racine(second_letter)->value, NULL}, 
+                                    NULL, 
+                                    NULL);
+    
+
+    for(size_t i = 0, i < freq->length-2, i++){
+
+
+    }
+
+
+}

@@ -51,4 +51,11 @@ void lsc_del_head(lsc *p);
 - Sortie : Aucune*/
 void lsc_dispose(lsc **pp);
 
+/*lsc_head_value(lsc *p): 
+- Entrée : Une liste simplement chainée lsc 
+- Donne le première element de la chaine
+- Sortie : FreqElement*/
+FreqElement lsc_head_value(lsc* p);
+
+
 #endif

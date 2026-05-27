@@ -5,14 +5,6 @@
 
 #include "arbrebinaire.h"
 
-//défini un noeud d'un arbre binaire de recherhe
-typedef 
-struct noeud {
-    int value; //valeur 
-    struct noeud *g; //gauche
-    struct noeud *d; //droite
-}noeud;
-
 //creer un arbre vide
 PArbre ArbreVide(){
     PArbre A = NULL; 
