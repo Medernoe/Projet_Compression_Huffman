@@ -37,7 +37,7 @@ FreqObject frequency_count(const char* word) {
 
         // Si la lettre n'existe pas dans le tableau de fréquence
         if (unknown) {
-            freq.length++; // On incrémente la longueur stockée directement dans la structure
+            freq.length++; // On incrémente la longueur, stockée directement dans la structure
 
             // On réalloue uniquement le pointeur interne .array
             FreqElement* temp = realloc(freq.array, freq.length * sizeof(FreqElement));
@@ -56,11 +56,7 @@ FreqObject frequency_count(const char* word) {
     return freq;
 }
 
-/* order_frequency
-- Input : FreqObject* freq 
-- Role : Trie le tableau (trie bulle) dans l'ordre decroissant des occurrences, 
-necessaire pour creer une lsc de feuille directement dans l'ordre croissant 
-*/
+// Trie bulle inverse pour le tableau de frequence
 void frequency_order(PFreqObject freq) {
     // Vérifie si le pointeur est NULL, ou le tableau vide / à 1 élément, rien à trier
     if (freq == NULL || freq->array == NULL || freq->length <= 1) {
@@ -106,49 +102,112 @@ void frequency_print(PFreqObject freq) {
 
 
 // Creer une lsc pour les feuilles dans l'ordre croissant  
-lsc* frequency_to_lsc(PFreqObject freq){
-    lsc* leaf_order = lsc_vide();
+Plsc frequency_to_lsc(PFreqObject freq){
+    Plsc leaf_order = lsc_vide();
 
-    // Vérifie si le pointeur est NULL, ou le tableau vide 
     if (freq == NULL || freq->array == NULL) {
         printf("Frequencies are empty.\n");
         return leaf_order;
     }
     
+    // On boucle pour creer les arbres dans la lsc 
     for (size_t i = 0; i < freq->length; i++) {
-        lsc_insert_head(leaf_order, freq->array[i]);
+        // On utilise pour ne pas déborder du tableau
+        PArbre feuille = Construire(freq->array[i], NULL, NULL);
+        lsc_insert_head(leaf_order, feuille);
     }
     return leaf_order;
-} 
+}
 
 
-PArbre Huffman_creation(char* word){
-    PFreqObject freq = frequency_count(word);
-    freq = frequency_order(&freq); 
+// Extrait et supprime le noeud avec la plus petite occurrence parmi les têtes des deux listes
+PArbre extraire_min(Plsc leaf_order, Plsc node) {
+    PArbre head_leaf = lsc_head_value(leaf_order);
+    PArbre head_node = lsc_head_value(node);
 
-    lsc* leaf_order = frequency_to_lsc(&freq); 
-    lsc* node_order = lsc_vide; 
+    // Si les deux listes sont vides
+    if (head_leaf == NULL && head_node == NULL) return NULL;
 
-
-    PArbre first_letter = Construire(lsc_head_value(leaf_order), 
-                                                    NULL,
-                                                    NULL); 
-
-    lsc_del_head(leaf_order); 
-    PArbre second_letter = Construire(lsc_head_value(leaf_order), 
-                                                    NULL, 
-                                                    NULL); 
-    
-    lsc_insert_head(node_order, Racine(first_letter)->value + Racine(second_letter)->value)  
-    PArbre first_node = Construire({Racine(first_letter)->value + Racine(second_letter)->value, NULL}, 
-                                    NULL, 
-                                    NULL);
-    
-
-    for(size_t i = 0, i < freq->length-2, i++){
-
-
+    // Si leaf_order est vide, on prend dans node
+    if (head_leaf == NULL) {
+        lsc_del_head(node);
+        return head_node;
     }
 
+    // Si node est vide, on prend dans leaf_order
+    if (head_node == NULL) {
+        lsc_del_head(leaf_order);
+        return head_leaf;
+    }
 
+    // Si les deux ont des valeurs, on compare les occurrences
+    if (Racine(head_leaf).count <= Racine(head_node).count) {
+        lsc_del_head(leaf_order);
+        return head_leaf;
+    } else {
+        lsc_del_head(node);
+        return head_node;
+    }
+}
+
+// Fonction récursive de construction de l'arbre
+PArbre Huffman_recursif(Plsc leaf_order, Plsc node) {
+    // Condition d'arrêt : leaf_order est vide ET il ne reste qu'un seul élément dans node => fin 
+    if (lsc_est_vide(leaf_order) && node->head != NULL && node->head->next == NULL) {
+        PArbre final_root = lsc_head_value(node);
+        lsc_del_head(node); // On nettoie la cellule
+        return final_root;
+    }
+    
+    // Condition d'arrêt : le mot n'avait qu'une seule lettre unique
+    if (lsc_est_vide(node) && leaf_order->head != NULL && leaf_order->head->next == NULL) {
+        PArbre final_root = lsc_head_value(leaf_order);
+        lsc_del_head(leaf_order);
+        return final_root;
+    }
+
+    // On extrait les deux plus petites valeurs (gauche puis droite)
+    PArbre left = extraire_min(leaf_order, node);
+    PArbre rigth = extraire_min(leaf_order, node);
+
+    // Sécurité en cas de problème de logique
+    if (left == NULL || rigth == NULL) return NULL;
+
+    // On crée le nouveau noeud interne
+    FreqElement e;
+    e.letter = '*'; // Caractère arbitraire pour désigner un noeud interne
+    e.count = Racine(left).count + Racine(rigth).count;
+
+    // Le plus petit élément extrait (gauche) va à gauche, le 2ème va à droite
+    PArbre new_node = Construire(e, left, rigth);
+
+    // On insère ce nouveau noeud à la fin de la liste des noeuds internes
+    lsc_insert_tail(node, new_node);
+
+    // Appel récursif pour continuer la construction
+    return Huffman_recursif(leaf_order, node);
+}
+
+
+PArbre Huffman_creation(const char* word) {
+    // Si la chaîne est vide
+    if (word == NULL || word[0] == '\0') return NULL;
+
+    // Créer la liste de feuilles ordonnées
+    FreqObject freq = frequency_count(word);
+    frequency_order(&freq); 
+    Plsc leaf_order = frequency_to_lsc(&freq);
+
+    // Créer la lsc pour les noeuds internes
+    Plsc node = lsc_vide(); 
+
+    // Lancement de la construction récursive
+    PArbre huffman_tree = Huffman_recursif(leaf_order, node);
+
+    // Libération de la mémoire des structures temporaires (qui sont maintenant vides)
+    free(leaf_order);
+    free(node);
+    free(freq.array);
+
+    return huffman_tree;
 }

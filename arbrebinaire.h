@@ -2,18 +2,15 @@
 #define ARBREBINAIRE_H
 
 #include <stdbool.h>
+#include "compression.h"
 
 
 //défini un noeud d'un arbre binaire de recherhe
-typedef 
-struct noeud {
-    int value; //valeur 
-    struct noeud *g; //gauche
-    struct noeud *d; //droite
-}noeud;
-
-//comprendre pourquoi ca 
-typedef struct FreqElement FreqElement; 
+typedef struct noeud {
+    FreqElement value; 
+    struct noeud *g;
+    struct noeud *d;
+} noeud;
 
 typedef struct noeud* PArbre; //pointeur sur un arbre 
 

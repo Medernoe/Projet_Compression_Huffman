@@ -30,5 +30,22 @@ int main() {
 
     lsc_dispose(&leaf_order);
 
-    return 1;
+    const char* word = "abbraccaddabrra";
+    printf("========================================\n");
+    printf("CREATION ARBRE HUFFMAN\n");
+    printf("Mot a compresser : %s\n\n", word);
+    
+    PArbre huffman_tree = Huffman_creation(word);
+
+    printf("\n========================================\n");
+    printf("PARCOURS ARBRE FINAL \n");
+
+    // Affichage de l'arbre final pour vérifier sa structure
+    printf("\nParcours Prefixe (Racine -> Gauche -> Droite) :\n");
+    ParcoursPref(huffman_tree);
+
+    printf("\nParcours Infixe (Gauche -> Racine -> Droite) :\n");
+    ParcoursInf(huffman_tree);
+
+    return 0;
 }

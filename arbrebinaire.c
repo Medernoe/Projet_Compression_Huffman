@@ -18,21 +18,20 @@ bool EstArbreVide(PArbre A){
 }
 
 
-element Racine(PArbre A){
+FreqElement Racine(PArbre A){
     //verifie que l'abre n'est pas vide 
     if (EstArbreVide(A)){
-        return 0;
+        FreqElement vide = {'\0', 0}; // uniformiser cette element nul avec l'autre précédent 
+        return vide;
     }
-
     //retourne la première valeur 
     return A->value; 
 }    
 
-
 //renvoie le sous arbre gauche de l'arbre
 PArbre Gauche(PArbre A){
     if (EstArbreVide(A)){
-        return 0;
+        return NULL; 
     }
     return A->g;
 }     
@@ -40,15 +39,13 @@ PArbre Gauche(PArbre A){
 //renvoie le sous arbre droit de l'arbre
 PArbre Droit(PArbre A){
     if (EstArbreVide(A)){
-        return 0;
+        return NULL;
     }
     return A->d;
-}     
+}
 
-
-
-// renvoie un arbre construit avec l'element e comme racine, g son sous arbre gauche et d son sous arbre droit
-PArbre Construire(element e, PArbre g, PArbre d){
+// renvoie un arbre construit avec FreqElement e comme racine, g son sous arbre gauche et d son sous arbre droit
+PArbre Construire(FreqElement e, PArbre g, PArbre d){
     //creer l'arbre
     PArbre A = malloc(sizeof(noeud)); 
 
@@ -66,7 +63,7 @@ void ParcoursPref(PArbre A){
     //si l'arbre à une valeur 
     if (!EstArbreVide(A)){
         //ecrire la valeur 
-        printf("%d\n",Racine(A));
+        printf("%c|%d\n", Racine(A).letter, Racine(A).count);
         // regarde l'arbre gauche 
         ParcoursPref(Gauche(A));
         // regarde l'arbre droit après gauche
@@ -82,7 +79,7 @@ void ParcoursInf(PArbre A){
         // regarde l'arbre gauche   
         ParcoursInf(Gauche(A));
         //ecrire la valeur 
-        printf("%d\n",Racine(A));
+        printf("%c|%d\n", Racine(A).letter, Racine(A).count);
         // regarde l'arbre droit après gauche
         ParcoursInf(Droit(A));
     }
@@ -98,68 +95,7 @@ void ParcoursSuff(PArbre A){
         // regarde l'arbre droit après gauche
         ParcoursSuff(Droit(A));
         //ecrire la valeur à la fin
-        printf("%d\n",Racine(A));
+        printf("%c|%d\n", Racine(A).letter, Racine(A).count);
     }
 }
 
-
-//insère l'élément dans l'abr et renvoie l'abr obtenu
-PArbre Insertion(element v, PArbre A){
-    // arbre vide = nouvel arbre 
-    if (EstArbreVide(A)){
-        //retourner un arbre construit à partir de l'element
-        A = Construire(v, NULL, NULL);
-        return A;
-    }
-
-    //insertion valeurs inférieur à racine
-    if(v < Racine(A)){
-        //on recommence sur sous arbre gauche 
-        A->g = Insertion(v, Gauche(A)); 
-    }
-    //insertion valeurs superieur à racine
-    else{
-        if(v > Racine(A)){
-            //on recommence sur sous arbre droit 
-            A->d = Insertion(v,Droit(A)); 
-        }
-    }
-    return A; 
-}
-
-
-//renvoie vrai si l'élément est présent dans l'abr, faux sinon
-bool Recherche(element v, PArbre A){
-    // arbre vide = valeur non présente
-    if (EstArbreVide(A)){
-        return false;
-    }
-    
-    //recherche valeur est la racine 
-    if(v == Racine(A)){
-        return true; 
-    }
-    
-    else{
-        //recherche valeur plus faible que racine 
-        if(v < Racine(A)){
-            //on recommence sur sous arbre gauche 
-            return Recherche(v, Gauche(A)); 
-        }
-        else{
-            return Recherche(v, Droit(A));
-        }
-    }
-}
-
-
-//renvoie vrai si l'élément est présent dans l'abr, faux sinon
-element Max(PArbre A){
-    if (EstArbreVide(A)){
-        printf("Arbre vide\n");
-        return Racine(A);
-    }
-    else{
-        return Max(Droit(A));
-    }
-}
