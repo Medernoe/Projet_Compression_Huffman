@@ -113,7 +113,7 @@ Plsc frequency_to_lsc(PFreqObject freq){
     // On boucle pour creer les arbres dans la lsc 
     for (size_t i = 0; i < freq->length; i++) {
         // On utilise pour ne pas déborder du tableau
-        PArbre feuille = Construire(freq->array[i], NULL, NULL);
+        PArbre feuille = Construire(freq->array[i], ArbreVide(), ArbreVide());
         lsc_insert_head(leaf_order, feuille);
     }
     return leaf_order;

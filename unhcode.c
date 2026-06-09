@@ -16,7 +16,7 @@ PArbre lire_arbre(const char *bits, size_t *pos) {
         // construire une feuille avec ce caractère
         FreqElement e = { c, 0 };
         // construire un arbre feuille avec ce caractère et le retourner
-        return Construire(e, NULL, NULL);
+        return Construire(e, ArbreVide(), ArbreVide());
         // Sinon, c'est un noeud interne : reconstruire récursivement le gauche puis le droit
     } else {
         PArbre g = lire_arbre(bits, pos);
