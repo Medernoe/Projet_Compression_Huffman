@@ -70,7 +70,7 @@ void frequency_order(PFreqObject freq) {
         for (size_t j = 0; j < len - i - 1; j++) {
             
             // Accès au tableau interne de l'objet : freq->array[j]
-            if (freq->array[j].count < freq->array[j + 1].count) {
+            if (freq->array[j].count > freq->array[j + 1].count) {
                 
                 // Échange des structures FreqElement
                 FreqElement temp = freq->array[j];
@@ -114,7 +114,7 @@ Plsc frequency_to_lsc(PFreqObject freq){
     for (size_t i = 0; i < freq->length; i++) {
         // On utilise pour ne pas déborder du tableau
         PArbre feuille = Construire(freq->array[i], ArbreVide(), ArbreVide());
-        lsc_insert_head(leaf_order, feuille);
+        lsc_insert_tail(leaf_order, feuille);
     }
     return leaf_order;
 }
@@ -188,7 +188,7 @@ PArbre Huffman_recursif(Plsc leaf_order, Plsc node) {
     return Huffman_recursif(leaf_order, node);
 }
 
-
+// Fonction de creation de l'arbre de huffman à partir d'un char 
 PArbre Huffman_creation(const char* word) {
     // Si la chaîne est vide
     if (word == NULL || word[0] == '\0') return NULL;

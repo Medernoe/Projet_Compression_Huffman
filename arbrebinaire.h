@@ -38,16 +38,4 @@ PArbre Construire(FreqElement e, PArbre g, PArbre d);
 // libere la mémoire de l'arbre
 void liberer_arbre(PArbre A);
 
-
-// =============================================================================
-// Les parcours
-
-//affiche les parcours préfixe, infixe et suffixe de l'arbre
-
-void ParcoursPref(PArbre);
-
-void ParcoursInf(PArbre);
-
-void ParcoursSuff(PArbre);
-
 #endif

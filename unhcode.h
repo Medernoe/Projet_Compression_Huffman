@@ -7,8 +7,7 @@
 #include <stddef.h>
 #include "arbrebinaire.h"
 
-/* ----------------------------------------------------------------------------
- *  lire_arbre
+/* lire_arbre
   Input : une chaine de bits representant l'en-tete d'un texte compresse par hcode
   Output : l'arbre de Huffman reconstruit a partir de l'en-tete
   Role :  A partir de la chaine de bits de l'en-tete, reconstruit l'arbre de Huffman
@@ -16,7 +15,7 @@
    - '1' -> feuille : lire les 8 bits suivants pour reconstituer le caractere ;
    - '0' -> noeud interne : reconstruire RECURSIVEMENT le gauche puis le droit
     (meme ordre prefixe que l'ecriture).
- * -------------------------------------------------------------------------- */
+*/
 PArbre lire_arbre(const char *bits, size_t *pos);
 
 #endif

@@ -4,6 +4,7 @@
 #include "lsc.h"
 #include "arbrebinaire.h"
 
+// Creer une lsc vide 
 Plsc lsc_vide(void) {
     Plsc l = malloc(sizeof *l);
     if (l == NULL) {
@@ -18,30 +19,6 @@ Plsc lsc_vide(void) {
 //retourne vrai si la liste est vide
 bool lsc_est_vide(Plsc p){
     return (p == NULL) || (p->head == NULL);
-}
-
-//permet d'inserer une cellule en head (controleur)
-int lsc_insert_head(Plsc p, PArbre tree_node){
-    // verifie que le pointeur est non nul
-    if (p == NULL) {
-        fprintf(stderr, "Erreur : liste NULL !\n");
-        return -1;
-    }
-
-    // Alloue la mémoire et creer pour la nouvelle cellule 
-    lsc_cell *cell = malloc(sizeof *cell);
-    if (cell == NULL) {
-        fprintf(stderr, "Erreur malloc!\n"); 
-        return -1;
-    }
-    cell->tree_node = tree_node; 
-    cell->next = p->head;
-    p->head = cell;
-
-    if (p->tail == NULL) {
-        p->tail = cell;
-    }
-    return 0;
 }
 
 //permet d'inserer une cellule en tail (controleur)
@@ -74,20 +51,6 @@ int lsc_insert_tail(Plsc p, PArbre tree_node) {
     return 0;
 }
 
-
-//parcour et ecrit une liste 
-void lsc_print(Plsc p){
-    if (lsc_est_vide(p)) return;
-
-    lsc_cell* pointeur = p->head;
-    while (pointeur != NULL) {
-        // On récupère la racine de l'arbre stocké dans la cellule
-        FreqElement val = Racine(pointeur->tree_node);
-        printf("%c|%d\n", val.letter, val.count);
-        pointeur = pointeur->next;
-    }
-}
-
 //fonction de suppression de cell en head 
 int lsc_del_head(Plsc p){
     if (lsc_est_vide(p)) {
@@ -104,6 +67,7 @@ int lsc_del_head(Plsc p){
     return 0;
 }
 
+//fonction de suppression d'une lsc et liberation mémoire  
 void lsc_dispose(Plsc *pp){
     if(*pp == NULL){
         printf("La liste n'existe pas");

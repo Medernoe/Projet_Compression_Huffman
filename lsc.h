@@ -29,22 +29,12 @@ lsc *lsc_vide(void);
 - Sortie : True/False selon la présence ou non d'une première cellule*/
 bool lsc_est_vide(Plsc p);
 
-/*lsc_insert_head : 
+/*lsc_insert_tail : 
 - Entrée : Une liste simplement chainée lsc + un entier
 - Creer une cellule avec la valeur value, si la création de la cellule ce passe mal
-retourne -1, sinon ajoute cette cellule en entete après head. Retourne 0 si réussi. 
+retourne -1, sinon ajoute cette cellule en queue après tail. Retourne 0 si réussi. 
 - Sortie : modification d'une lsc avec l'ajout d'une cellule contenant value*/
-int lsc_insert_head(Plsc p, PArbre value);
-
-
-// void ? 
 int lsc_insert_tail(Plsc p, PArbre tree_node);
-
-/*lsc_print : 
-- Entrée : Une liste simplement chainée lsc 
-- Parcours la lsc et ecrit les valeurs de chaque cellule
-- Sortie : Aucune (ecrit dans la sortie terminale)*/
-void lsc_print(Plsc p);
 
 /*lsc_del_head(lsc *p): 
 - Entrée : Une liste simplement chainée lsc 

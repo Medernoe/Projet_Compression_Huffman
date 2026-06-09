@@ -9,12 +9,6 @@ hcode : hcode.o compression.o arbrebinaire.o lsc.o utils.o
 unhcode : unhcode.o arbrebinaire.o utils.o
 	${CC} unhcode.o arbrebinaire.o utils.o -o unhcode
 
-main : main.o compression.o arbrebinaire.o lsc.o hcode.o utils.o unhcode.o
-	${CC} main.o compression.o arbrebinaire.o lsc.o utils.o -o main
-
-main.o : main.c
-	${CC} -c main.c ${CFLAGS}
-
 compression.o : compression.c
 	${CC} -c compression.c ${CFLAGS}
 
@@ -34,4 +28,4 @@ unhcode.o : unhcode.c
 	${CC} -c unhcode.c ${CFLAGS}
 
 clean :
-	rm -f *.o main hcode unhcode
+	rm -f *.o hcode unhcode
