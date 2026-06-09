@@ -1,5 +1,5 @@
-#ifndef _LISTES_
-#define _LISTES_
+#ifndef LSC_H
+#define LSC_H
 
 #include <stdbool.h>
 #include "compression.h"
@@ -21,7 +21,7 @@ typedef struct lsc* Plsc;
 - Entrée : Vide
 - Création d'une liste simplement chainée vide
 - Sortie : un lsc contenant un pointeur sur un controleur vide*/
-lsc *lsc_vide();
+lsc *lsc_vide(void);
 
 /*lsc_est_vide : 
 - Entrée : Une liste simplement chainée lsc

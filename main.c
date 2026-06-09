@@ -7,7 +7,7 @@
 #include "lsc.h"
 
 
-int main() {
+int main(void) {
     FreqObject freq = frequency_count("abbraccaddabrra");
 
     printf("\n Classic Version : \n");

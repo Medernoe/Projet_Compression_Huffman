@@ -4,7 +4,7 @@
 #include "lsc.h"
 #include "arbrebinaire.h"
 
-Plsc lsc_vide() {
+Plsc lsc_vide(void) {
     Plsc l = malloc(sizeof *l);
     if (l == NULL) {
         fprintf(stderr, "Erreur malloc!\n");

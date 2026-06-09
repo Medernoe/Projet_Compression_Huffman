@@ -6,7 +6,7 @@
 #include "arbrebinaire.h"
 
 //creer un arbre vide
-PArbre ArbreVide(){
+PArbre ArbreVide(void){
     PArbre A = NULL; 
     return A;
 }
@@ -55,6 +55,14 @@ PArbre Construire(FreqElement e, PArbre g, PArbre d){
     A->d = d; 
 
     return A;
+}
+
+// libere la mémoire de l'arbre
+void liberer_arbre(PArbre A){
+    if (EstArbreVide(A)) return;
+    liberer_arbre(Gauche(A));
+    liberer_arbre(Droit(A));
+    free(A);
 }
 
 

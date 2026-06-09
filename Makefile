@@ -1,10 +1,16 @@
 CC=gcc
-CFLAGS = -std=c11 -Wpedantic -Wall -Wconversion -Wextra -Wwrite-strings \
-   -Werror -Wfatal-errors -O2
+CFLAGS = -std=c2x -Wall -Wconversion -Werror -Wextra -Wfatal-errors -Wpedantic -Wwrite-strings -O2
 
-# 1. Ajoute compression.o aux dépendances et à la commande de liaison
-main : main.o compression.o arbrebinaire.o lsc.o 
-	${CC} main.o compression.o arbrebinaire.o lsc.o -o main
+all : hcode unhcode
+
+hcode : hcode.o compression.o arbrebinaire.o lsc.o utils.o
+	${CC} hcode.o compression.o arbrebinaire.o lsc.o utils.o -o hcode
+
+unhcode : unhcode.o arbrebinaire.o utils.o
+	${CC} unhcode.o arbrebinaire.o utils.o -o unhcode
+
+main : main.o compression.o arbrebinaire.o lsc.o hcode.o utils.o unhcode.o
+	${CC} main.o compression.o arbrebinaire.o lsc.o utils.o -o main
 
 main.o : main.c
 	${CC} -c main.c ${CFLAGS}
@@ -17,3 +23,15 @@ arbrebinaire.o : arbrebinaire.c
 
 lsc.o : lsc.c
 	${CC} -c lsc.c ${CFLAGS}	
+
+utils.o : utils.c
+	${CC} -c utils.c ${CFLAGS}
+
+hcode.o : hcode.c
+	${CC} -c hcode.c ${CFLAGS}
+
+unhcode.o : unhcode.c
+	${CC} -c unhcode.c ${CFLAGS}
+
+clean :
+	rm -f *.o main hcode unhcode
