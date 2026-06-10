@@ -4,11 +4,10 @@
 
 /*
 - lire_fichier
-- Input : const char* nom (nom du fichier à lire)
-- Output : char* (contenu du fichier)
-- Role : Lit le contenu d'un fichier et le retourne sous forme de chaîne de caractères. 
-         Si le fichier ne peut pas être lu, retourne NULL.
- */
+- Input : const char *nom (nom du fichier à lire)
+- Output : char* (contenu du fichier sous forme de chaîne de caractères)
+- Role : Lit le contenu d'un fichier par allocation dynamique et le stocke dans une chaîne de caractères.
+*/
 char *lire_fichier(const char *nom);
 
 

@@ -28,4 +28,4 @@ unhcode.o : unhcode.c
 	${CC} -c unhcode.c ${CFLAGS}
 
 clean :
-	rm -f *.o hcode unhcode
+	rm -f *.o *.huf *.dcp hcode unhcode

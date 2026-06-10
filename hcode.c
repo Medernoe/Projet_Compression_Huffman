@@ -64,6 +64,7 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Erreur : impossible de lire '%s'\n", argv[1]);
         return 1;
     }
+    // Gère le cas ou le fichier est vide (texte[0] == '\0') pour éviter les erreurs de segmentation
     if (texte[0] == '\0') {
         fprintf(stderr, "Fichier vide : rien a compresser.\n");
         free(texte);
