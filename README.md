@@ -269,7 +269,7 @@ Une autre solution plus coûteuse consiste à placer toutes les feuilles dans un
 ## Limites
 
 - **Surcoût de l'en-tête** : 9 bits par feuille. Sur un texte avec un alphabet proche de la taille de la séquence (par exemple les 26 lettres de l'alphabet, chacune une fois), l'en-tête domine et le code « compressé » est plus gros que l'original (taux négatif). Huffman n'est rentable que lorsque quelques caractères dominent.
-- **Caractère unique** : un fichier ne contenant qu'un seul caractère distinct (`aaaa`) est traité comme un cas particulier (la feuille-racine reçoit le code `0`).
+- 
 
 ---
 
