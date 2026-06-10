@@ -269,12 +269,14 @@ Une autre solution plus coûteuse consiste à placer toutes les feuilles dans un
 ## Limites
 
 - **Surcoût de l'en-tête** : 9 bits par feuille. Sur un texte avec un alphabet proche de la taille de la séquence (par exemple les 26 lettres de l'alphabet, chacune une fois), l'en-tête domine et le code « compressé » est plus gros que l'original (taux négatif). Huffman n'est rentable que lorsque quelques caractères dominent.
-- 
+- **Comptage des caractères unique** : Dans ADN.txt, énormément de fragment de plusieurs bases sont répétées en boucle et la compression de Huffman n'en tire pas profit. 
 
 ---
 
 ## Tests
 
 Le programme a été testé sur des fichiers de tailles et de natures variées : l'exemple du sujet (`abbraccaddabrra`) dans monTexte.txt, l'alphabet entier (`abcdefghijklmnopqrstuvwxyz`) dans alphabet.txt et une séquence d'ADN (`TTACGGCTAGCTTACGGATCAGTACGTTAAGGCCTTAGACGATCG...`) dans ADN.txt pour représenter un cas d'usage biologique.
-- Dans le cas de la séquence comprenant toutes les lettres de l'alphabet, la compression est contre-productive (**-84.1 %**), comme décrit dans les limites. Chaque lettre n'apparaît qu'une seule fois (taille de la séquence = taille de l'alphabet = 26). L'en-tête coûte 9 bits par feuille, soit 26 × 9 + 25 = 259 bits à lui seul, ce qui dépasse déjà les 208 bits du texte d'origine (26 × 8). Les codes du corps restent pourtant courts (4 à 5 bits par lettre), mais comme chaque lettre n'apparaît qu'une fois, son code court n'est jamais réutilisé : le coût de l'en-tête n'est jamais amorti. Huffman n'est rentable que lorsque quelques caractères fréquents réutilisent abondamment leur code court.
+- Dans le cas de la séquence comprenant toutes les lettres de l'alphabet, la compression est contre-productive (**-84.1 %**), comme décrit dans les limites. 
+Chaque lettre n'apparaît qu'une seule fois (taille de la séquence = taille de l'alphabet = 26). L'en-tête coûte 9 bits par feuille, soit 26 × 9 + 25 = 259 bits à lui seul, ce qui dépasse déjà les 208 bits du texte d'origine (26 × 8). Les codes du corps restent pourtant courts (4 à 5 bits par lettre), mais comme chaque lettre n'apparaît qu'une fois, son code court n'est jamais réutilisé : le coût de l'en-tête n'est jamais amorti. 
+**La compression de Huffman n'est rentable que lorsque quelques caractères fréquents réutilisent abondamment leur code court.**
 - Pour la séquence d'ADN, la compression est très efficace (**71.3 %**) : l'alphabet est court (4 bases) et la séquence longue (31 500 + les retours à la ligne).
