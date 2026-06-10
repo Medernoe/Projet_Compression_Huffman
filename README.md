@@ -30,6 +30,7 @@ Projet réalisé dans le cadre de l'UE 2 - Algorithmique et Structures de Donné
 
 Noé Mederlet : noe.mederlet@univ-rouen.fr
 Mehdi Tachekort : mehdi.tachekort@univ-rouen.fr
+github : https://github.com/Medernoe/Projet_Compression_Huffman
 
 ------------------------------------------------------------------------------------------------------
 
